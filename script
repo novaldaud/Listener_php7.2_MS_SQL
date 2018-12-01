@@ -1,0 +1,19 @@
+----Created by NovalDaud
+
+Tested in Ubuntu 18.04.1 LTS
+
+rooting as root
+apt-get install unixodbc-dev
+add-apt-repository ppa:ondrej/php
+apt-get update
+apt-get install php7.2 php-dev php-xml php-pear 
+echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
+echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
+pecl install sqlsrv
+pecl install pdo_sqlsrv
+a2dismod mpm_event
+a2enmod mpm_prefork
+a2enmod php7.2
+echo "extension=sqlsrv.so" >> /etc/php/7.2/apache2/php.ini
+echo "extension=pdo_sqlsrv.so" >> /etc/php/7.2/apache2/php.ini
+service apache2 restart
